@@ -8,8 +8,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -31,16 +33,11 @@ public class App extends Application {
         txSenha.setPromptText("Adicione sua senha");
         pane.getChildren().add(txSenha);
         
-        Button btEntrar = new Button("Entrar");
-        pane.getChildren().add(btEntrar);
-        
         Image iconlike = new Image("https://e1.pngegg.com/pngimages/26/201/png-clipart-pucca-girl-cartoon-character.png");
-        Label foto = new Label("Nome", new ImageView(iconlike));
-        foto.setScaleX(0.1);
-        foto.setScaleY(0.1);
-        
-        
-        pane.getChildren().add(foto);
+        Button btEntrar = new Button("Entrar", new ImageView(iconlike));
+        btEntrar.setScaleX(0.1);
+        btEntrar.setScaleY(0.1);
+        pane.getChildren().add(btEntrar);
         
         Label label = new Label("Login");
         label.setFont(new Font("Arial",30));
@@ -55,10 +52,24 @@ public class App extends Application {
         btEntrar.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event){
-                System.out.println("Ok");
+                System.out.println(txNome.getText()+ " " + txSenha.getText());
             }
         });
         
+        DropShadow shadow = new DropShadow();
+        btEntrar.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent e){
+                btEntrar.setEffect(shadow);
+            }
+        });
+       
+        btEntrar.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent e){
+                btEntrar.setEffect(null);
+            }
+        });
         
         Scene scene = new Scene(pane);
         stage.setTitle("Formulario 01");
@@ -66,7 +77,7 @@ public class App extends Application {
         stage.show();
         
         btEntrar.setLayoutX( (pane.getWidth() - btEntrar.getWidth()) / 2);
-        btEntrar.setLayoutY(130);
+        btEntrar.setLayoutY(2);
         
         txNome.setLayoutX( (pane.getWidth() - txNome.getWidth()) / 2);
         txNome.setLayoutY(50);
